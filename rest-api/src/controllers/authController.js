@@ -1,6 +1,4 @@
 const jwt = require('jsonwebtoken');
-const jwtUtils = require('../utils/jwtUtils');
-
 const SECRET_KEY = process.env.SECRET_KEY;
 
 const authController = {
