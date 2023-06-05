@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const blacklist = require('../utils/blacklist');
 const SECRET_KEY = process.env.SECRET_KEY;
 
 const users = [
@@ -6,7 +7,6 @@ const users = [
   { id: 2, username: 'user2', password: 'password2' },
 ];
 
-const blacklist = []
 const authController = {
   login: (req, res) => {
     const { username, password } = req.body;
@@ -28,21 +28,22 @@ const authController = {
 
   logout: (req, res) => {
     const token = req.headers.authorization;
-  
+
     // Check if the token is already in the blacklist
     if (blacklist.includes(token)) {
       return res.status(401).json({ message: 'Token already invalidated' });
     }
-  
+
     // Add the token to the blacklist
     blacklist.push(token);
-  
+
     res.json({ message: 'Logout successful' });
   },
-  
-  register: (req, res) => {
-    // Handle user registration logic
-  }
+
+  protectedData: (req, res) => {
+    // Handle protected data logic
+    return res.json({ message: 'This is protected data' });
+  },
 };
 
-module.exports = authController;
+module.exports = authController
