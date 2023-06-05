@@ -38,7 +38,7 @@ const authController = {
 
   protectedData: (req, res) => {
     // Handle protected data logic
-    return res.json({ message: 'This is protected data' });
+    res.json({message:'welcome to protected Route'})
   },
 };
 
