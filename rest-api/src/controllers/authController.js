@@ -26,18 +26,14 @@ const authController = {
     res.json({ token });
   },
 
-  logout: (req, res) => {
+  logout: (req, res, next) => {
     const token = req.headers.authorization;
-
-    // Check if the token is already in the blacklist
-    if (blacklist.includes(token)) {
-      return res.status(401).json({ message: 'Token already invalidated' });
-    }
-
-    // Add the token to the blacklist
+  
+    // Add the token to the blacklist using the logoutMiddleware
     blacklist.push(token);
-
-    res.json({ message: 'Logout successful' });
+  
+    // Continue to the next middleware or route handler
+    next();
   },
 
   protectedData: (req, res) => {
