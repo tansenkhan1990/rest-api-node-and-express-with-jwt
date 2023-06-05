@@ -6,7 +6,7 @@ const users = [
   { id: 2, username: 'user2', password: 'password2' },
 ];
 
-
+const blacklist = []
 const authController = {
   login: (req, res) => {
     const { username, password } = req.body;
@@ -24,6 +24,20 @@ const authController = {
     const token = jwt.sign({ username: user.username }, SECRET_KEY);
 
     res.json({ token });
+  },
+
+  logout: (req, res) => {
+    const token = req.headers.authorization;
+  
+    // Check if the token is already in the blacklist
+    if (blacklist.includes(token)) {
+      return res.status(401).json({ message: 'Token already invalidated' });
+    }
+  
+    // Add the token to the blacklist
+    blacklist.push(token);
+  
+    res.json({ message: 'Logout successful' });
   },
   
   register: (req, res) => {
